@@ -5,6 +5,6 @@ fn printString(comptime input: []const u8) void {
 }
 
 pub fn main() void {
-    std.debug.print("{}, {}, {}... ", .{ 1, 2, 3 });
-    printString("Hello world!");
+    std.debug.print("{}, {}, {s}\n", .{ 1, 2, "3..." });
+    printString("Hello world!\n");
 }

@@ -1,0 +1,48 @@
+#+TITLE: Zig Invaders
+
+This is a simple space invaders clone written in zig that is meant to showcase
+the features of Zig. This program was written by following along with this
+YouTube series: [[https://www.youtube.com/watch?v=eZLTAhlFwlI&list=PLYA3HD4nElQnxWnznih9w0RloSw0hFaYQ&index=1][Zig invaders]].
+
+Here are some notes I took while following along with this series:
+
+* Lesson 1
+  To begin this project we ran ~zig init~ in this directory. This generated the
+  following files:
+  #+name: tree
+  #+begin_src shell :exports output :results raw
+    tree
+  #+end_src
+
+  #+RESULTS: tree
+  .
+  ├── build.zig
+  ├── build.zig.zon
+  └── src
+      ├── main.zig
+      └── root.zig
+
+  2 directories, 5 files
+
+  The first of these files to explore is the ~build.zig~. This is our build
+  configuration file. You can think of this file like our Makefile, but this
+  build file is written in Zig itself!
+
+  The next file to take a look at is the ~build.zig.zon~. This is essentially
+  our package manifest file. It defines our package name, version, and
+  dependencies. You may be wondering what is ~zon~ or maybe you have already
+  guessed, but ~zon~ stands for "Zig Object Notation". It is a specific notation
+  that is built for Zig.
+
+  If you come from a JavaScript background you may notice that this is similar
+  to your ~package.json~ in some ways. The ~build.zig~ is a lot like the steps
+  block of a ~package.json~ and the ~zon~ file is a lot like the rest of a
+  ~package.json~ file.
+
+** src directory
+   Now that we have covered the build files let's take a look at the ~src~
+   directory. In our case we see a ~main.zig~ and a ~root.zig~. This is just a
+   convention that you can change this if you like. Conventionally
+   ~main.zig~ is going to be your executable, whereas ~root.zig~ if your
+   library. If you were going to be writing some library code and were following
+   convention you would put that in ~root.zig~.

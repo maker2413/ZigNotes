@@ -1,0 +1,16 @@
+#+TITLE: Zig Notes
+
+This repo is just my playground to learn and try to take notes on things I learn
+in Zig. These notes are not going to be a perfect read, but are rather
+intended to be reference documents for snippets of knowledge or examples. These
+notes are just little jots I make while I learn and will include spelling
+mistakes, bad grammar, and a complete disregard for past, present, and future
+tense.
+
+Inaccuracies are also quite likely if you are viewing this repository in the
+future as at the time of writing this Zig is still not officially released and
+is currently at version 0.15.2. Some aspects of the language are still under
+development and this is especially true of things like the standard lib.
+
+I would recommend viewing the content of this repository in this order:
+- [[./HelloWorld/README.org][HelloWorld]] :: This is just your standard hello world program.

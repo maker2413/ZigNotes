@@ -1,0 +1,4 @@
+#+TITLE: Hello World
+
+It is a tale as old as time; the "hello world" program. This serves are a toe
+dip into the world of Zig, much like it is for many programming languages.

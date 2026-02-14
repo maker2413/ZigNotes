@@ -46,3 +46,93 @@ Here are some notes I took while following along with this series:
    ~main.zig~ is going to be your executable, whereas ~root.zig~ if your
    library. If you were going to be writing some library code and were following
    convention you would put that in ~root.zig~.
+
+* Lesson 2
+  In this lesson we cover adding graphics capabilities to our zig program using
+  raylib. Raylib is a simple and easy-to-use library to enjoy videogames
+  programming, written in C. Raylib also provides Zig bindings and Zig also has
+  excellent interoperability with C.
+
+  With this in mind we essentially have two options. We can either import Raylib
+  directly using some of Zig's builtins for working with C code or we could
+  using bindings. Bindings are essentially a library where someone has done the
+  heavy lifting of importing that C code into Zig and then they repackage it in
+  a way that is usually more Zig friendly.
+
+  For this program we are going to stick with the Zig bindings, but if you are a
+  more experienced Zig developer you could import Raylib directly from C or to
+  build this out as intended and then replace the Raylib Zig bindings with C
+  bindings.
+
+** Adding dependencies
+   To add dependencies to a Zig program you essentially you have two options:
+   1. You can open your ~zig.build.zon~ and add the package to the dependencies
+      section of the zon file.
+   2. Another option is to use ~zig fetch~.
+
+   In this project we will be using ~zig fetch~. The command we used to add
+   raylib was:
+   #+begin_src shell
+     zig fetch --save git+https://www.github.com/raylib-zig/raylib-zig#devel
+   #+end_src
+
+   ~devel~ in this case is the git branch we want to pull from for our
+   dependency.
+
+   After running the above if you look in your zon file you will see something
+   like this:
+   #+begin_example
+     .raylib_zig = .{
+         .url = "git+https://www.github.com/raylib-zig/raylib-zig?ref=devel#cd71c85d571027ac8033357f83b124ee051825b3",
+         .hash = "raylib_zig-5.6.0-dev-KE8REENOBQC-m5nK7M2b5aKSIubJPbPLUYcRhT7aT3RN",
+     },
+   #+end_example
+
+   This adds our dependency to our project, but you see after the git branch
+   there is also a commit sha. This is so that we can reliably rebuild our
+   application in the future by pinning to the specific commit on the devel
+   branch.
+
+   Unlike adding a package to your ~package.json~ in a JS project or your
+   ~pyproject.toml~ in a Python project, just having this package listed in the
+   zon file is not enough for it to be usable in Zig. In Zig we also have to
+   make this package available to the executable. To do this we have to open our
+   ~build.zig~ and add the dependency as a ~const~ to our ~build~ function. You
+   should add something like this after the target and optimize ~const~'s:
+   #+begin_src zig
+     const raylib_dep = b.dependency("raylib_zig", .{
+         .target = target,
+         .optimize = optimize,
+     });
+
+     const raylib = raylib_dep.module("raylib");
+     const raylib_artifact = raylib_dep.artifact("raylib");
+   #+end_src
+
+   What this is doing is saying is we are defining a module called ~raylib_dep~
+   that is a dependency of ~raylib_zig~. We are then defining a ~const~ called
+   ~raylib~ that points to a specific module in this dependency called
+   "raylib". We are also defining a ~const~ called ~raylib_artifact~ that points
+   to an artifact in this dependency called "raylib".
+
+   Later on in our ~build.zig~ we in the exe const we would add something like
+   this to add our raylib module to our exe:
+   #+begin_src zig
+     // Other lines above
+     // ...
+     .imports = &.{
+         .{ .name = "zig_invaders", .module = mod },
+         .{ .name = "raylib", .module = raylib },
+     },
+     // Other lines below
+     // ...
+   #+end_src
+
+   We will also add the following line after our exe ~const~ to add our library
+   artifact:
+   #+begin_src zig
+     exe.linkLibrary(raylib_artifact);
+   #+end_src
+
+   With all of this place we can run ~zig build~ to download and compile raylib
+   and this will take a while the first it is run.

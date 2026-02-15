@@ -136,3 +136,21 @@ Here are some notes I took while following along with this series:
 
    With all of this place we can run ~zig build~ to download and compile raylib
    and this will take a while the first it is run.
+
+* Lesson 3
+  In this lesson we will begin writing our ~main.zig~ and begin using raylib. In
+  Zig we have ~const~ and we have ~var~ just like in many other languages. One
+  thing to note about Zig is that when libraries or packages are imported they
+  are assigned to a ~const~.
+
+  Zig also has a large number of builtin functions and for the most part you
+  will learn them as you encounter them, but if you wanted to see them you can
+  go to: https://ziglang.org/documentation/master/#Builtin-Functions.
+
+  One of these builtin functions that we will be using right now is the import
+  function: https://ziglang.org/documentation/master/#import.
+
+  Putting all of this together we can import raylib like this:
+  #+begin_src zig
+    const rl = @import("raylib");
+  #+end_src
